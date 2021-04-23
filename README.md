@@ -12,3 +12,4 @@ cd aws-iot-device-sdk-cpp-v2-build
 cmake -DCMAKE_INSTALL_PREFIX="<absolute path sdk-cpp-workspace dir>" -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE="<Release|RelWithDebInfo|Debug>" ../aws-iot-device-sdk-cpp-v2
 cmake --build . --target install
 ```
+Note : Clone this project to the same path where you created sdk-cpp-workspace directory.
