@@ -94,7 +94,7 @@ bool AWSConnection::init(){
     m_connection->OnConnectionInterrupted = std::move(onInterrupted);
     m_connection->OnConnectionResumed = std::move(onResumed);
 
-    String topic("test_topic");
+    String topic(m_topic.toStdString().c_str());
     String clientId(String("test-") + Aws::Crt::UUID().ToString());
 
     qDebug()<<"Connecting...\n";
@@ -153,7 +153,7 @@ bool AWSConnection::init(){
 void AWSConnection::unsubscribe(){
     std::promise<void> unsubscribeFinishedPromise;
     m_connection->Unsubscribe(
-                "test_topic", [&](Mqtt::MqttConnection &, uint16_t, int) { unsubscribeFinishedPromise.set_value(); });
+                m_topic.toStdString().c_str(), [&](Mqtt::MqttConnection &, uint16_t, int) { unsubscribeFinishedPromise.set_value(); });
     unsubscribeFinishedPromise.get_future().wait();
 }
 
@@ -180,6 +180,10 @@ void AWSConnection::set_enpoint(QString endpoint){
     m_endpoint = endpoint;
 }
 
+void AWSConnection::set_topic(QString topic){
+    m_topic = topic;
+}
+
 void AWSConnection::message_received_func(QString message){
     emit message_received_signal(message);
 }
@@ -201,5 +205,5 @@ void AWSConnection::send_message(QString message){
             fprintf(stdout, "Operation failed with error %s\n", aws_error_debug_str(errorCode));
         }
     };
-    m_connection->Publish("test_topic", AWS_MQTT_QOS_AT_LEAST_ONCE, false, payload, onPublishComplete);
+    m_connection->Publish(m_topic.toStdString().c_str(), AWS_MQTT_QOS_AT_LEAST_ONCE, false, payload, onPublishComplete);
 }

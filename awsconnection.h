@@ -29,6 +29,7 @@ public:
     void set_ca_path(QString);
     void set_private_key_path(QString);
     void set_enpoint(QString);
+    void set_topic(QString);
 
 private:
     ApiHandle apiHandle;
@@ -45,6 +46,7 @@ private:
     QString m_path_to_ca;
     QString m_path_to_private_key;
     QString m_endpoint;
+    QString m_topic;
 
 signals:
     void message_received_signal(QString);

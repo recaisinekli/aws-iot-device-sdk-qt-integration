@@ -8,6 +8,7 @@ MainController::MainController(QObject *parent) : QObject(parent)
     aws_connect.set_private_key_path("path/to/your/private.pem.key");
     aws_connect.set_ca_path("path/to/AmazonRootCA1.pem");
     aws_connect.set_enpoint("endpoint");
+    aws_connect.set_topic("test_topic");
 
     is_aws_connection_ok = aws_connect.init();
 
